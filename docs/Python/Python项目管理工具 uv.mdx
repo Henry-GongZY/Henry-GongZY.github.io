@@ -1,0 +1,253 @@
+---
+sidebar_position: 7
+---
+
+# 使用UV管理Python项目
+
+## 安装 UV
+**下载**
+- **Linux/Mac**  
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh |
+  sh
+  ```
+- **Windows**  
+  ```powershell
+  powershell -ExecutionPolicy ByPass -c "irm
+  https://astral.sh/uv/install.ps1 | iex"
+  ```
+
+**测试安装**  
+```bash
+uv --version
+```
+
+**为何使用 UV?**  
+UV 结合了以下工具的优势:
+- pip  
+- pipx  
+- pip-tools  
+- venv  
+- Poetry
+
+## Python 版本管理
+**安装特定 Python 版本**
+```bash
+uv python install 3.12
+```
+**列出已安装的 Python 版本**
+```bash
+uv python list
+```
+**查找可用的 Python 版本**
+```bash
+uv python find
+```
+**卸载 Python 版本**
+```bash
+uv python uninstall
+   ```
+
+## UV 项目管理
+
+**初始化项目**
+```bash
+uv init
+```
+
+初始化的项目结构如下：
+```
+.
+├── pyproject.toml
+├── uv.lock
+├── .venv
+├── .git
+├── .gitignore
+└── src
+    └── main.py
+```
+
+其中 ```pyproject.toml``` 是 ```PEP518``` 标准的Python项目依赖配置文件，具体如下：
+```toml
+[project]
+name = "project_name"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+```
+
+**添加依赖**
+```bash
+uv add numpy
+uv add numpy@latest
+uv add numpy@1.23.5
+uv add numpy==1.23.5
+```
+(同时会执行"lock"和"sync"操作)
+
+**移除依赖**
+```bash
+uv remove numpy
+```
+
+**同步依赖**
+在 ```pyproject.toml``` 中添加依赖或修改依赖版本后，执行
+```bash
+uv sync
+```
+(同时会执行"lock"操作，将"lock"同步到".venv")
+
+**锁定依赖**
+```bash
+uv lock
+```
+(创建".lock"文件)
+
+**更新依赖并锁定**
+```bash
+uv lock upgrade
+```
+(创建".lock"文件)
+
+**查看依赖树**
+```bash
+uv tree
+```
+
+一个典型环境的输出如下：
+```
+visualization v0.1.0
+├── matplotlib v3.10.1
+│   ├── contourpy v1.3.2
+│   │   └── numpy v2.2.5
+│   ├── cycler v0.12.1
+│   ├── fonttools v4.57.0
+│   ├── kiwisolver v1.4.8
+│   ├── numpy v2.2.5
+│   ├── packaging v25.0
+│   ├── pillow v11.2.1
+│   ├── pyparsing v3.2.3
+│   └── python-dateutil v2.9.0.post0
+│       └── six v1.17.0
+├── numpy v2.2.5
+├── scipy v1.15.2
+│   └── numpy v2.2.5
+└── torch v2.7.0
+    ├── filelock v3.18.0
+    ├── fsspec v2025.3.2
+    ├── jinja2 v3.1.6
+    │   └── markupsafe v3.0.2
+    ├── networkx v3.4.2
+    ├── setuptools v80.1.0
+    ├── sympy v1.14.0
+    │   └── mpmath v1.3.0
+    └── typing-extensions v4.13.2
+```
+
+**构建项目并安装**
+```bash
+uv build
+```
+
+**发布项目至PYPI**
+```bash
+uv publish
+```
+
+**子项目管理**
+
+如果需要多个项目使用同一套环境，或者需要在一套项目中管理多个子项目，可以在已有项目中使用以下命令创建子项目：
+
+```bash
+uv init subproject_name
+```
+
+创建了两个子项目的项目结构如下：
+
+```
+.
+├── .venv/
+├── module1/
+│   ├── main.py
+│   ├── pyproject.toml
+│   └── README.md
+├── module2/
+│   ├── main.py
+│   ├── pyproject.toml
+│   └── README.md
+├── .gitignore
+├── .python-version
+├── main.py
+├── pyproject.toml
+├── README.md
+└── uv.lock
+```
+
+此时 ```pyproject.toml``` 中的依赖项如下：
+
+```toml
+[project]
+name = "visualization"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.5",
+    "scipy>=1.15.2",
+    "torch>=2.7.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "module1",
+    "module2",
+]
+```
+
+## UV 工具管理
+
+**运行工具**
+```bash
+uvx run / uv tool run 
+```
+
+**安装工具**
+```bash
+uv tool install 
+```
+
+**卸载工具**
+```bash
+uv tool uninstall
+```
+
+**列出已安装的工具**
+```bash
+uv tool list
+```
+
+## 其他
+
+**不需要虚拟环境或安装依赖运行Python代码**
+
+```bash
+uv run --no-project main.py
+uv run --no-project --with numpy main.py
+```
+
+**uv使用pip安装依赖**
+
+```bash
+uv pip install numpy
+```
+
+**更新uv**
+
+```bash
+uv self update / pip install --upgrade uv
+```
