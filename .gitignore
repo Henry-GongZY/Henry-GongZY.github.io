@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+*~
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Dependencies
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# docusaurus
+.docusaurus/

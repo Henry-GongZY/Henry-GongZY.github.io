@@ -65,10 +65,10 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'moddev', // 用于区分不同的文档类型
-        path: 'moddev', // 文件夹路径
-        routeBasePath: 'moddev', // URL 路径
-        sidebarPath: require.resolve('./sidebarsModdev.js'),
+        id: 'copho', // 用于区分不同的文档类型
+        path: 'copho', // 文件夹路径
+        routeBasePath: 'copho', // URL 路径
+        sidebarPath: require.resolve('./sidebars.js'),
         // 其他配置与主文档相同
         editUrl:
           'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
@@ -92,21 +92,16 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: '语言与基础',
+            label: '编程语言与基础',
           },
           {
             type: 'docSidebar',
-            sidebarId: 'moddevSidebar', // 新的侧边栏ID
-            docsPluginId: 'moddev', // 对应上面的插件ID
+            sidebarId: 'tutorialSidebar', // 新的侧边栏ID
+            docsPluginId: 'copho', // 对应上面的插件ID
             position: 'left',
-            label: 'Mod开发',
+            label: '计算摄影学',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
-          },
+          
         ],
       },
       footer: {
